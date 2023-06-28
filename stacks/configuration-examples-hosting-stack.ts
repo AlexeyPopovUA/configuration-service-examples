@@ -13,7 +13,7 @@ import {
 } from "aws-cdk-lib/aws-cloudfront";
 import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 import {Certificate, CertificateValidation} from "aws-cdk-lib/aws-certificatemanager";
-import {AaaaRecord, ARecord, HostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
+import {AaaaRecord, ARecord, CnameRecord, HostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 
 import configuration from "../cfg/configuration";
@@ -88,6 +88,12 @@ export class ConfigurationExamplesHostingStack extends Stack {
                     originShieldRegion: region
                 }),
             }
+        });
+
+        new CnameRecord(this, `${project}-record-a-all`, {
+            recordName: `*.dev.${configuration.HOSTING.domainName}.`,
+            zone: hostedZone,
+            domainName: configuration.HOSTING.domainName
         });
 
         new ARecord(this, `${project}-record-a`, {
