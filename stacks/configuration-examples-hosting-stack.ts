@@ -90,8 +90,26 @@ export class ConfigurationExamplesHostingStack extends Stack {
             }
         });
 
-        new CnameRecord(this, `${project}-record-a-all`, {
+        new CnameRecord(this, `${project}-record-cname-all`, {
             recordName: `*.dev.${configuration.HOSTING.domainName}.`,
+            zone: hostedZone,
+            domainName: configuration.HOSTING.domainName
+        });
+
+        new CnameRecord(this, `${project}-record-prod`, {
+            recordName: `prod.${configuration.HOSTING.domainName}.`,
+            zone: hostedZone,
+            domainName: configuration.HOSTING.domainName
+        });
+
+        new CnameRecord(this, `${project}-record-acc`, {
+            recordName: `acc.${configuration.HOSTING.domainName}.`,
+            zone: hostedZone,
+            domainName: configuration.HOSTING.domainName
+        });
+
+        new CnameRecord(this, `${project}-record-random`, {
+            recordName: `random.${configuration.HOSTING.domainName}.`,
             zone: hostedZone,
             domainName: configuration.HOSTING.domainName
         });
