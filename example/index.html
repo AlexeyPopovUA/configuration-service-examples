@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex"> <!-- Ask crawlers not to index the page -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="flex justify-center items-center h-screen">
+    <div class="square w-[25vw] h-[25vw] min-w-[350px] min-h-[350px] flex justify-center items-center text-white p-4 border-4 border-slate-800">
+        <p id="response-text"></p>
+    </div>
+</div>
+
+<script>
+    const responseEl = document.getElementById('response-text');
+    const squareEl = responseEl.closest(".square");
+    // Make GET request to the specified URL
+    fetch('https://configuration-service.examples.oleksiipopov.com/edge')
+        .then(response => response.json())
+        .then(data => {
+            console.log('data:', data);
+            responseEl.textContent = data.configuration.environment;
+            squareEl.classList.add(`bg-[${data.configuration.color}]`);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            responseEl.textContent = `${error.message}`;
+            squareEl.classList.add("bg-red-800");
+        });
+</script>
+</body>
+</html>
